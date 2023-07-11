@@ -12,11 +12,15 @@ class Api::V1::UsersController < ApplicationController
   end
 
   def create
-    user = User.new(user_params)
-    if user.save
-      render json: user, status: :created
+    if User.exists?
+      render json: { message: 'Access Denied: You do not have the required privileges to complete this action.' }, status: :forbidden
     else
-      render json: user.errors.full_messages, status: :unprocessable_entity
+      user = User.new(user_params)
+      if user.save
+        render json: user, status: :created
+      else
+        render json: user.errors.full_messages, status: :unprocessable_entity
+      end
     end
   end
 
