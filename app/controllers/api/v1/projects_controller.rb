@@ -11,6 +11,15 @@ class Api::V1::ProjectsController < ApplicationController
     render json: @project
   end
 
+  def show_expenses
+    project = Project.find(params[:id])
+    if project.expenses_count.zero?
+      render json: {}, status: :not_found
+    else
+      render json: project.expenses, status: :ok
+    end
+  end
+
   def create
     user = User.find(params[:user_id])
     project = user.projects.create(project_params)

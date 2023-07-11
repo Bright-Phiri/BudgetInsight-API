@@ -11,6 +11,15 @@ class Api::V1::UsersController < ApplicationController
     render json: @user
   end
 
+  def show_projects
+    user = User.find(params[:id])
+    if user.projects_count.zero?
+      render json: {}, status: :not_found
+    else
+      render json: user.projects, status: :ok
+    end
+  end
+
   def create
     if User.exists?
       render json: { message: 'Access Denied: You do not have the required privileges to complete this action.' }, status: :forbidden
