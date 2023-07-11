@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
 class Category < ApplicationRecord
-  validates :name, presence: true
+  VALID_CATEGORIES = ["Labor", "Materials", "Utilities", "Furniture"].freeze
+  validates :name, presence: true, inclusion: { in: VALID_CATEGORIES }
 end
