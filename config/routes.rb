@@ -6,7 +6,9 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       resources :categories, except: :show
-      resources :users, except: :destory
+      resources :users, except: :destory do
+        resources :projects
+      end
     end
   end
 end
