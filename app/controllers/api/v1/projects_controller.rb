@@ -4,11 +4,11 @@ class Api::V1::ProjectsController < ApplicationController
   before_action :set_project, only: [:update, :show, :destory]
   def index
     projects = Project.all
-    render json: projects
+    render json: ProjectsRepresenter.new(projects).as_json
   end
 
   def show
-    render json: @project
+    render json: ProjectRepresenter.new(@project).as_json
   end
 
   def show_expenses
