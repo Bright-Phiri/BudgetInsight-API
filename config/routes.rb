@@ -13,6 +13,9 @@ Rails.application.routes.draw do
           resources :expenses
         end
       end
+      get '/reports/expense_summary', action: :expense_summary, controller: 'reports'
+      get '/reports/category_expense', action: :category_expense, controller: 'reports'
+      get '/reports/project_expense', action: :project_expense, controller: 'reports'
     end
   end
 end
