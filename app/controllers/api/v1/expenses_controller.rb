@@ -3,12 +3,12 @@
 class Api::V1::ExpensesController < ApplicationController
   before_action :set_expense, only: [:update, :show, :destory]
   def index
-    expenses = Expense.all
-    render json: expenses
+    expenses = Expense.preload(:projects)
+    render json: ExpensesRepresenter.new(expenses).as_json
   end
 
   def show
-    render json: @expense
+    render json: ExpenseRepresenter.new(@expense).as_json
   end
 
   def create
@@ -16,7 +16,7 @@ class Api::V1::ExpensesController < ApplicationController
     category = Category.find(params[:category_id])
     expense = project.expenses.create(expense_params.merge(category_id: category.id))
     if expense.persisted?
-      render json: expense, status: :created
+      render json: ExpenseRepresenter.new(expense).as_json, status: :created
     else
       render json: expense.errors.full_messages, status: :unprocessable_entity
     end
@@ -24,7 +24,7 @@ class Api::V1::ExpensesController < ApplicationController
 
   def update
     if @expense.update(expense_params)
-      render json: @expense, status: :ok
+      render json: ExpenseRepresenter.new(@expense).as_json, status: :ok
     else
       render json: @expense.errors.full_messages, status: :unprocessable_entity
     end
