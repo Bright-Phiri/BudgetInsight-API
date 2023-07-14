@@ -2,6 +2,7 @@
 
 class Api::V1::UsersController < ApplicationController
   before_action :set_user, only: [:update, :show]
+  skip_before_action :require_login, only: :create
   def index
     users = User.all
     render json: users
