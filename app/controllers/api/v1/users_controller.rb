@@ -25,7 +25,7 @@ class Api::V1::UsersController < ApplicationController
     if User.exists?
       render json: { message: 'Access Denied: You do not have the required privileges to complete this action.' }, status: :forbidden
     else
-      user = User.new(user_params)
+      user = User.new(user_params.merge(password: params[:password], password_confirmation: params[:password_confirmation]))
       if user.save
         render json: user, status: :created
       else
@@ -45,7 +45,7 @@ class Api::V1::UsersController < ApplicationController
   private
 
   def user_params
-    params.require(:user).permit(:user_name, :email)
+    params.require(:user).permit(:user_name, :email, :password, :password_confirmation)
   end
 
   def set_user
