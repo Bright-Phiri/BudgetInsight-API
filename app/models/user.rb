@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class User < ApplicationRecord
-  has_many :projects
+  has_many :projects, dependent: :destroy
   has_secure_password
   attr_readonly :projects_count
   validates :password, length: { in: 6..8 }
