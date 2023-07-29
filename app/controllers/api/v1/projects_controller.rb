@@ -22,8 +22,8 @@ class Api::V1::ProjectsController < ApplicationController
 
   def create
     user = User.find(params[:user_id])
-    project = user.projects.create(project_params)
-    if project.persisted?
+    project = user.projects.build(project_params)
+    if project.save
       render json: project, status: :created
     else
       render json: project.errors.full_messages, status: :unprocessable_entity

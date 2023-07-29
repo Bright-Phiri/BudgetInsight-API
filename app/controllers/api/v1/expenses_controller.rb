@@ -14,8 +14,8 @@ class Api::V1::ExpensesController < ApplicationController
   def create
     project = Project.find(params[:project_id])
     category = Category.find(params[:category_id])
-    expense = project.expenses.create(expense_params.merge(category_id: category.id))
-    if expense.persisted?
+    expense = project.expenses.build(expense_params.merge(category_id: category.id))
+    if expense.save
       render json: ExpenseRepresenter.new(expense).as_json, status: :created
     else
       render json: expense.errors.full_messages, status: :unprocessable_entity
